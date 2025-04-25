@@ -46,17 +46,48 @@ DocSpot is a full-stack web application built with **React**, **Firebase Authent
 
 ### 🧩 1. Clone the Repo
 
+
+
+
+
+
 ```bash
-git clone [https://github.com/yourusername/your-project.git](https://github.com/yourusername/your-project.git)
+git clone https://github.com/yourusername/your-project.git
 cd your-project
-📦 2. Install Backend (FastAPI)cd backend
+```
+
+## 2. Install Backend (FastAPI)
+```bash
+cd backend
 python -m venv venv
-source venv/bin/activate   # or venv\Scripts\activate on Windows
+source venv/bin/activate   # On Windows use: venv\Scripts\activate
 pip install -r requirements.txt
-🌐 3. Install Frontend (React)cd ../frontend
+```
+
+## 3. Install Frontend (React)
+```bash
+cd ../frontend
 npm install
-🔐 Environment Variables📄 backend/.envDATABASE_URL=mysql+pymysql://<username>:<password>@<host>:<port>/<dbname>
-You’ll get these values from Railway’s MySQL plugin or your own MySQL host.🔑 Firebase Config (Frontend)Update the Firebase config in frontend/src/firebase.js:const firebaseConfig = {
+```
+
+## 🔐 Environment Variables
+
+### Backend Configuration
+Create `backend/.env` file with:
+```env
+DATABASE_URL=mysql+pymysql://<username>:<password>@<host>:<port>/<dbname>
+SECRET_KEY=your-secret-key
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+```
+
+### Frontend Firebase Configuration
+Update `frontend/src/firebase.js`:
+```javascript
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+
+const firebaseConfig = {
   apiKey: "YOUR_API_KEY",
   authDomain: "YOUR_AUTH_DOMAIN",
   projectId: "YOUR_PROJECT_ID",
@@ -64,18 +95,56 @@ You’ll get these values from Railway’s MySQL plugin or your own MySQL host.�
   messagingSenderId: "YOUR_SENDER_ID",
   appId: "YOUR_APP_ID"
 };
-🏁 Run the App▶️ Backendcd backend
+
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+```
+
+## 🚀 Running the Application
+
+### Start Backend Server
+```bash
+cd backend
 uvicorn app.main:app --reload
-▶️ Frontendcd frontend
+```
+
+### Start Frontend Development Server
+```bash
+cd ../frontend
 npm start
-Visit:Frontend: http://localhost:3000Backend: http://localhost:8000/docs📦 DeploymentFrontend: VercelBackend: Railway🧠 Features🔐 Login & Signup with Firebase📤 Upload & view documents (free or paid)💬 Community forum threads💰 Simulated wallet system (view, deposit, pay)📈 Track views & downloads per document✅ .env Template for BackendCreate backend/.env:DATABASE_URL=mysql+pymysql://user:password@host:3306/dbname
-And in your backend/app/db/database.py, make sure it reads from the environment:import os
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from dotenv import load_dotenv
+```
 
-load_dotenv()
+## 🌐 Access the Application
+- **Frontend**: http://localhost:3000
+- **Backend API Docs**: http://localhost:8000/docs
 
-DATABASE_URL = os.getenv("DATABASE_URL")
-engine = create_engine(DATABASE_URL)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+## ☁️ Deployment
+
+### Frontend Deployment (Vercel)
+```bash
+cd frontend
+npm run build
+vercel
+```
+
+### Backend Deployment (Railway)
+1. Connect your GitHub repository
+2. Select the backend directory
+3. Add environment variables
+4. Deploy!
+
+## ✨ Features
+| Feature | Description |
+|---------|-------------|
+| 🔐 Authentication | Firebase login/signup |
+| 📤 Document Management | Upload/view documents |
+| 💬 Community Forum | Threads and discussions |
+| 💰 Wallet System | View balance, deposit, pay |
+| 📊 Analytics | Track views/downloads |
+| 🛒 Payment System | Free/paid document access |
+
+## 🛠️ Tech Stack
+- **Frontend**: React.js, Firebase Auth
+- **Backend**: FastAPI, Python
+- **Database**: MySQL
+- **Deployment**: Vercel (Frontend), Railway (Backend)
